@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ChatController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -13,6 +15,12 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 });
+
+Route::get('/chat', [ChatController::class, 'index'])->middleware(['auth']);
+Route::post('/create-conversation', [ChatController::class, 'createConversation'])->middleware('auth');
+
+Route::post('/messages', [MessageController::class, 'index'])->middleware('auth');
+Route::post('/new-message', [MessageController::class, 'store'])->middleware('auth');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
