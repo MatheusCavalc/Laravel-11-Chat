@@ -5,7 +5,7 @@ import MicrophoneIcon from '@/Components/Icons/MicrophoneIcon.vue'
 import SendIcon from '@/Components/Icons/SendIcon.vue'
 import LeafIcon from '@/Components/Icons/LeafIcon.vue'
 import { router, usePage } from '@inertiajs/vue3';
-import { computed, ref } from 'vue';
+import { computed, ref, onMounted } from 'vue';
 import axios from 'axios';
 
 const props = defineProps(['chats'])
@@ -19,6 +19,14 @@ const showSearchBar = ref(false)
 const page = usePage()
 const user = computed(() => page.props.auth.user)
 
+const messageContainer = ref(null);
+
+const scrollToBottom = () => {
+    if (messageContainer.value) {
+        messageContainer.value.scrollTop = messageContainer.value.scrollHeight;
+    }
+}
+
 const messages = (chatId, user) => {
     axios.post('/messages', {
         chatId: chatId,
@@ -29,6 +37,8 @@ const messages = (chatId, user) => {
     }).catch(error => {
         console.log(error)
     });
+
+    scrollToBottom();
 }
 
 function sendMessage() {
@@ -37,6 +47,19 @@ function sendMessage() {
         content: content.value
     })
 }
+
+onMounted(() => {
+    scrollToBottom();
+
+    window.Echo.channel('messages')
+        .listen('MessageSent', async (e) => {
+            console.log(e);
+            if (e.message.conversation_id == idChat.value) { // && page.props.auth_id != e.message.user_id
+                await messagesChat.value.push(e.message);
+                scrollToBottom();
+            }
+        });
+})
 </script>
 
 <template>
@@ -137,7 +160,7 @@ function sendMessage() {
                             </div>
                         </div>
 
-                        <div class="flex flex-col space-y-4 p-3 overflow-y-auto">
+                        <div class="flex flex-col space-y-4 p-3 overflow-y-auto" ref="messageContainer">
                             <div v-for="message in messagesChat" :key="message.id">
                                 <div v-if="message.user_id == user.id" class="flex items-end justify-end">
                                     <div class="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-1 items-end">
@@ -152,17 +175,33 @@ function sendMessage() {
                                         alt="My profile" class="w-6 h-6 rounded-full order-2">
                                 </div>
 
-                                <div v-else class="flex items-end">
-                                    <div class="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start">
-                                        <div>
-                                            <span
-                                                class="px-4 py-2 rounded-lg inline-block rounded-bl-none bg-gray-300 text-gray-600">
-                                                {{ message.content }}
+                                <div v-else class="flex gap-1">
+                                    <img class="w-8 h-8 rounded-full"
+                                        src="https://images.unsplash.com/photo-1590031905470-a1a1feacbb0b?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144"
+                                        alt="Jese image">
+                                    <div
+                                        class="flex flex-col w-full max-w-[320px] leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl">
+                                        <div class="flex items-center space-x-2 rtl:space-x-reverse">
+                                            <span class="text-sm font-semibold text-gray-900">
+                                                {{ message.user.name }}
                                             </span>
+                                            <span class="text-sm font-normal text-gray-500">{{ message.created_at
+                                                }}</span>
                                         </div>
+                                        <p class="text-sm font-normal py-2.5 text-gray-900">
+                                            {{ message.content }}
+                                        </p>
+                                        <span class="text-sm font-normal text-gray-500">Delivered</span>
                                     </div>
-                                    <img src="https://images.unsplash.com/photo-1549078642-b2ba4bda0cdb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144"
-                                        alt="My profile" class="w-6 h-6 rounded-full order-1">
+                                    <button
+                                        class="inline-flex self-center items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50"
+                                        type="button">
+                                        <svg class="w-4 h-4 text-gray-500" aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 4 15">
+                                            <path
+                                                d="M3.5 1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.041a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 5.959a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
+                                        </svg>
+                                    </button>
                                 </div>
                             </div>
                         </div>
