@@ -1,10 +1,12 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue'
-import ChatBar from '@/Components/ChatBar.vue'
+import Dropdown from '@/Components/Dropdown.vue';
+import DropdownLink from '@/Components/DropdownLink.vue';
 import MicrophoneIcon from '@/Components/Icons/MicrophoneIcon.vue'
 import SendIcon from '@/Components/Icons/SendIcon.vue'
 import LeafIcon from '@/Components/Icons/LeafIcon.vue'
 import BackIcon from '@/Components/Icons/BackIcon.vue'
+import EllipsisIcon from '@/Components/Icons/EllipsisIcon.vue'
 import { Link, router, usePage } from '@inertiajs/vue3';
 import { computed, ref, onMounted } from 'vue';
 import axios from 'axios';
@@ -69,7 +71,7 @@ onMounted(() => {
             <div class="antialiased bg-gray-50 text-gray-600 lg:h-screen overflow-y-auto lg:p-4">
                 <div class="relative w-full lg:max-w-[340px] mx-auto bg-white shadow-lg h-full rounded-lg">
                     <div class="mb-2 py-3 px-4">
-                        <h3 class="text-xs font-semibold uppercase text-gray-400">Chat App</h3>
+                        <h3 class="text-lg lg:text-xl font-semibold text-gray-400">Messages</h3>
                     </div>
 
                     <div class="py-3 px-5">
@@ -181,15 +183,24 @@ onMounted(() => {
                                         </p>
                                         <span class="text-sm font-normal text-gray-500">Delivered</span>
                                     </div>
-                                    <button
-                                        class="inline-flex self-center items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50"
-                                        type="button">
-                                        <svg class="w-4 h-4 text-gray-500" aria-hidden="true"
-                                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 4 15">
-                                            <path
-                                                d="M3.5 1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.041a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 5.959a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
-                                        </svg>
-                                    </button>
+
+                                    <Dropdown align="left" width="48" position="center-lg:bottom">
+                                        <template #trigger>
+                                            <button
+                                                class="inline-flex self-center items-center text-sm font-medium text-center text-gray-900"
+                                                type="button">
+                                                <EllipsisIcon />
+                                            </button>
+                                        </template>
+
+                                        <template #content>
+                                            <DropdownLink :href="route('profile.edit')"> Profile </DropdownLink>
+                                            <DropdownLink :href="route('logout')" method="post" as="button">
+                                                Log Out
+                                            </DropdownLink>
+                                        </template>
+                                    </Dropdown>
+
                                 </div>
                             </div>
                         </div>

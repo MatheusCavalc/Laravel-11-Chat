@@ -38,7 +38,7 @@ const page = usePage()
             </button>
             </Link>
 
-            <Dropdown align="left" width="48">
+            <Dropdown align="left" width="48" position="top-lg:bottom">
                 <template #trigger>
                     <button class="p-2">
                         <CogIcon class="cursor-pointer" />

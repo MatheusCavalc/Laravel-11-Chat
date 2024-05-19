@@ -14,6 +14,10 @@ const props = defineProps({
         type: String,
         default: 'py-1 bg-white',
     },
+    position: {
+        type: String,
+        default: 'top-lg:bottom'
+    }
 });
 
 const closeOnEscape = (e) => {
@@ -41,6 +45,16 @@ const alignmentClasses = computed(() => {
     }
 });
 
+const positionClasses = computed(() => {
+    if (props.position === 'top-lg:bottom') {
+        return '-top-24 -left-10 lg:top-7 lg:left-0'
+    } else if (props.position === 'center-lg:bottom') {
+        return 'top-0 -left-20 lg:top-7 lg:left-0'
+    } else if (props.position === 'right') {
+        return 'ltr:origin-top-right rtl:origin-top-left end-0'
+    }
+})
+
 const open = ref(false);
 </script>
 
@@ -63,8 +77,8 @@ const open = ref(false);
         >
             <div
                 v-show="open"
-                class="absolute z-50 mt-2 rounded-md shadow-lg -top-32 -left-10 lg:top-7 lg:left-0 text-nowrap"
-                :class="[widthClass]"
+                class="absolute z-50 mt-2 rounded-md shadow-lg text-nowrap"
+                :class="[widthClass, positionClasses]"
                 style="display: none"
                 @click="open = false"
             >
