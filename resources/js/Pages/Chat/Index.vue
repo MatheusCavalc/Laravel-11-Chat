@@ -1,10 +1,11 @@
 <script setup>
-import AuthUserOptions from '@/Components/AuthUserOptions.vue'
+import AppLayout from '@/Layouts/AppLayout.vue'
 import ChatBar from '@/Components/ChatBar.vue'
 import MicrophoneIcon from '@/Components/Icons/MicrophoneIcon.vue'
 import SendIcon from '@/Components/Icons/SendIcon.vue'
 import LeafIcon from '@/Components/Icons/LeafIcon.vue'
-import { router, usePage } from '@inertiajs/vue3';
+import BackIcon from '@/Components/Icons/BackIcon.vue'
+import { Link, router, usePage } from '@inertiajs/vue3';
 import { computed, ref, onMounted } from 'vue';
 import axios from 'axios';
 
@@ -63,85 +64,72 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="lg:grid lg:grid-cols-4 lg:gap-2 bg-gray-50">
-
-        <div>
-            <!--
-                <ChatCard :chats="props.chats" @send-chat-id="chatId" @send-messages="addMessages"
-                @send-user-infos="userInfos" />
-            -->
-
-            <section class="flex flex-col justify-center antialiased bg-gray-50 text-gray-600 lg:h-screen p-4">
-                <div class="h-full">
-                    <div class="relative max-w-[340px] mx-auto bg-white shadow-lg rounded-lg">
-
-                        <div class="mb-2 py-3 px-4">
-                            <AuthUserOptions />
-                        </div>
-
-                        <Transition>
-                            <div class="mb-2 py-3 px-4" v-show="showSearchBar">
-                                <ChatBar />
-                            </div>
-                        </Transition>
-
-
-                        <div class="py-3 px-5">
-                            <h3 class="text-xs font-semibold uppercase text-gray-400 mb-1">Chats</h3>
-                            <div class="divide-y divide-gray-200">
-                                <div v-for="chat in chats" :key="chat.id">
-                                    <button v-if="chat.user_1.id == user.id"
-                                        class="w-full text-left py-2 focus:outline-none focus-visible:bg-indigo-50">
-                                        <div @click="messages(chat.id, chat.user_2)" class="flex items-center">
-                                            <img class="rounded-full items-start flex-shrink-0 mr-3"
-                                                src="https://res.cloudinary.com/dc6deairt/image/upload/v1638102932/user-32-01_pfck4u.jpg"
-                                                width="32" height="32" alt="Marie Zulfikar" />
-                                            <div>
-                                                <h4 class="text-sm font-semibold text-gray-900">{{ chat.user_2.name }}
-                                                </h4>
-                                                <div class="text-[13px]">The video chat ended · 2hrs</div>
-                                            </div>
-                                        </div>
-                                    </button>
-                                    <button v-else
-                                        class="w-full text-left py-2 focus:outline-none focus-visible:bg-indigo-50">
-                                        <div @click="messages(chat.id, chat.user_1)" class="flex items-center">
-                                            <img class="rounded-full items-start flex-shrink-0 mr-3"
-                                                src="https://res.cloudinary.com/dc6deairt/image/upload/v1638102932/user-32-01_pfck4u.jpg"
-                                                width="32" height="32" alt="Marie Zulfikar" />
-                                            <div>
-                                                <h4 class="text-sm font-semibold text-gray-900">{{ chat.user_1.name }}
-                                                </h4>
-                                                <div class="text-[13px]">The video chat ended · 2hrs</div>
-                                            </div>
-                                        </div>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Bottom right button -->
-                        <button @click="showSearchBar = !showSearchBar"
-                            class="absolute bottom-5 right-5 inline-flex items-center text-sm font-medium text-white bg-indigo-500 hover:bg-indigo-600 rounded-full text-center px-3 py-2 shadow-lg focus:outline-none focus-visible:ring-2">
-                            <LeafIcon />
-                            <span>New Chat</span>
-                        </button>
+    <AppLayout>
+        <section class="lg:grid lg:grid-cols-4 lg:gap-2 bg-white">
+            <div class="antialiased bg-gray-50 text-gray-600 lg:h-screen overflow-y-auto lg:p-4">
+                <div class="relative w-full lg:max-w-[340px] mx-auto bg-white shadow-lg h-full rounded-lg">
+                    <div class="mb-2 py-3 px-4">
+                        <h3 class="text-xs font-semibold uppercase text-gray-400">Chat App</h3>
                     </div>
+
+                    <div class="py-3 px-5">
+                        <h3 class="text-xs font-semibold uppercase text-gray-400 mb-1">Chats</h3>
+                        <div class="divide-y divide-gray-200 lg:h-[530px] lg:overflow-y-auto">
+                            <div v-for="chat in chats" :key="chat.id">
+                                <button v-if="chat.user_1.id == user.id"
+                                    class="w-full text-left py-2 focus:outline-none focus-visible:bg-indigo-50">
+                                    <div @click="messages(chat.id, chat.user_2)" class="flex items-center">
+                                        <img class="rounded-full items-start flex-shrink-0 mr-3"
+                                            src="https://res.cloudinary.com/dc6deairt/image/upload/v1638102932/user-32-01_pfck4u.jpg"
+                                            width="32" height="32" alt="Marie Zulfikar" />
+                                        <div>
+                                            <h4 class="text-sm font-semibold text-gray-900">{{ chat.user_2.name
+                                                }}
+                                            </h4>
+                                            <div class="text-[13px]">The video chat ended · 2hrs</div>
+                                        </div>
+                                    </div>
+                                </button>
+                                <button v-else
+                                    class="w-full text-left py-2 focus:outline-none focus-visible:bg-indigo-50">
+                                    <div @click="messages(chat.id, chat.user_1)" class="flex items-center">
+                                        <img class="rounded-full items-start flex-shrink-0 mr-3"
+                                            src="https://res.cloudinary.com/dc6deairt/image/upload/v1638102932/user-32-01_pfck4u.jpg"
+                                            width="32" height="32" alt="Marie Zulfikar" />
+                                        <div>
+                                            <h4 class="text-sm font-semibold text-gray-900">{{ chat.user_1.name
+                                                }}
+                                            </h4>
+                                            <div class="text-[13px]">The video chat ended · 2hrs</div>
+                                        </div>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bottom right button -->
+                    <Link href="/chat">
+                    <button
+                        class="absolute bottom-5 right-5 inline-flex items-center text-sm font-medium text-white bg-indigo-500 hover:bg-indigo-600 rounded-full text-center px-3 py-2 shadow-lg focus:outline-none focus-visible:ring-2">
+                        <LeafIcon />
+                        <span>New Chat</span>
+                    </button>
+                    </Link>
                 </div>
-            </section>
-        </div>
+            </div>
 
-        <div class="col-span-3">
-            <div class="mr-2 bg-white">
-                <!--
-                    <ChatField :chatId="idChat" :messages="messagesChat" :userInfos="userInfos" />
-                -->
-
-                <Transition>
-                    <div v-show="idChat" class="flex-1 p:2 sm:p-6 justify-between flex flex-col h-screen">
-
-                        <div class="flex sm:items-center justify-between py-3 border-b-2 border-gray-200">
-                            <div class="relative flex items-center space-x-4">
+            <Transition>
+                <div v-show="idChat" :class="idChat ? 'lg:block' : 'hidden lg:block'"
+                    class="fixed lg:relative z-30 lg:col-span-3 left-0 bottom-0 lg:bottom-0 lg:right-4 w-full h-screen bg-white">
+                    <div class="flex-1 p:2 sm:p-6 justify-between flex flex-col h-screen">
+                        <div class="flex gap-2 items-center py-3 border-b border-gray-200 px-2 lg:px-0">
+                            <div class="lg:hidden flex items-center">
+                                <button @click="idChat = ''">
+                                    <BackIcon />
+                                </button>
+                            </div>
+                            <div class="relative flex items-center gap-4">
                                 <div class="relative">
                                     <span class="absolute text-green-500 right-0 bottom-0">
                                         <svg width="20" height="20">
@@ -151,11 +139,11 @@ onMounted(() => {
                                     <img src="https://images.unsplash.com/photo-1549078642-b2ba4bda0cdb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144"
                                         alt="" class="w-10 sm:w-16 h-10 sm:h-16 rounded-full">
                                 </div>
-                                <div class="flex flex-col leading-tight">
-                                    <div class="text-2xl mt-1 flex items-center">
-                                        <span class="text-gray-700 mr-3">{{ userInfos.name }}</span>
+                                <div class="leading-tight">
+                                    <div class="flex items-center">
+                                        <p class="text-lg lg:text-2xl text-gray-700">{{ userInfos.name }}</p>
                                     </div>
-                                    <span class="text-lg text-gray-600">{{ userInfos.email }}</span>
+                                    <p class="lg:text-lg text-gray-600">{{ userInfos.email }}</p>
                                 </div>
                             </div>
                         </div>
@@ -206,7 +194,7 @@ onMounted(() => {
                             </div>
                         </div>
 
-                        <div class="border-t-2 border-gray-200 px-4 pt-4 mb-2 sm:mb-0">
+                        <div class="border-t border-gray-200 px-4 pt-4 mb-2 sm:mb-0">
                             <div class="relative flex">
                                 <span class="absolute inset-y-0 flex items-center">
                                     <button type="button"
@@ -230,8 +218,8 @@ onMounted(() => {
                             </div>
                         </div>
                     </div>
-                </Transition>
-            </div>
-        </div>
-    </div>
+                </div>
+            </Transition>
+        </section>
+    </AppLayout>
 </template>

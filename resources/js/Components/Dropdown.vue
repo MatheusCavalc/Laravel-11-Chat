@@ -27,7 +27,7 @@ onUnmounted(() => document.removeEventListener('keydown', closeOnEscape));
 
 const widthClass = computed(() => {
     return {
-        48: 'w-48',
+        48: 'w-fit lg:w-48',
     }[props.width.toString()];
 });
 
@@ -63,8 +63,8 @@ const open = ref(false);
         >
             <div
                 v-show="open"
-                class="absolute z-50 mt-2 rounded-md shadow-lg"
-                :class="[widthClass, alignmentClasses]"
+                class="absolute z-50 mt-2 rounded-md shadow-lg -top-32 -left-10 lg:top-7 lg:left-0 text-nowrap"
+                :class="[widthClass]"
                 style="display: none"
                 @click="open = false"
             >

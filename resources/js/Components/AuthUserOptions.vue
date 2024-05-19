@@ -9,6 +9,7 @@ import DropdownLink from '@/Components/DropdownLink.vue';
             <h3 class="text-xs font-semibold uppercase text-gray-400">Chat App</h3>
         </div>
 
+        <!--
         <div>
             <Dropdown align="right" width="48">
                 <template #trigger>
@@ -21,14 +22,14 @@ import DropdownLink from '@/Components/DropdownLink.vue';
                     </span>
                 </template>
 
-                <template #content>
+<template #content>
                     <DropdownLink :href="route('profile.edit')"> Profile </DropdownLink>
                     <DropdownLink :href="route('logout')" method="post" as="button">
                         Log Out
                     </DropdownLink>
                 </template>
-            </Dropdown>
-        </div>
-
+</Dropdown>
+</div>
+-->
     </div>
 </template>

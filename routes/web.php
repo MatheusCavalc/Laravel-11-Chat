@@ -22,6 +22,8 @@ Route::post('/create-conversation', [ChatController::class, 'createConversation'
 Route::post('/messages', [MessageController::class, 'index'])->middleware('auth');
 Route::post('/new-message', [MessageController::class, 'store'])->middleware('auth');
 
+Route::get('/contacts', [ChatController::class, 'contacts'])->middleware('auth');
+
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

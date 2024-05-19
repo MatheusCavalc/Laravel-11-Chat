@@ -34,4 +34,10 @@ class ChatController extends Controller
 
         Conversation::create($data);
     }
+
+    public function contacts()
+    {
+
+        return Inertia::render('Chat/Contacts');
+    }
 }
