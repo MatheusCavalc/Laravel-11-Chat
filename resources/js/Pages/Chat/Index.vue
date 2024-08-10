@@ -49,6 +49,8 @@ function sendMessage() {
         conversation_id: idChat.value,
         content: content.value
     })
+
+    content.value = ''
 }
 
 onMounted(() => {
@@ -113,7 +115,7 @@ onMounted(() => {
                     <!-- Bottom right button -->
                     <Link href="/chat">
                     <button
-                        class="absolute bottom-5 right-5 inline-flex items-center text-sm font-medium text-white bg-indigo-500 hover:bg-indigo-600 rounded-full text-center px-3 py-2 shadow-lg focus:outline-none focus-visible:ring-2">
+                        class="absolute bottom-5 right-5 inline-flex items-center text-sm font-medium text-white bg-blue-500 hover:bg-blue-600 rounded-full text-center px-3 py-2 shadow-lg focus:outline-none focus-visible:ring-2">
                         <LeafIcon />
                         <span>New Chat</span>
                     </button>
@@ -175,8 +177,8 @@ onMounted(() => {
                                             <span class="text-sm font-semibold text-gray-900">
                                                 {{ message.user.name }}
                                             </span>
-                                            <span class="text-sm font-normal text-gray-500">{{ message.created_at
-                                                }}</span>
+                                            <span class="text-sm font-normal text-gray-500">{{ message.id
+                                                }}</span> <!-- message.created_at -->
                                         </div>
                                         <p class="text-sm font-normal py-2.5 text-gray-900">
                                             {{ message.content }}
@@ -214,17 +216,15 @@ onMounted(() => {
                                     </button>
                                 </span>
 
-                                <form @submit.prevent="sendMessage" class="w-full">
-                                    <input v-model="content" type="text" placeholder="Write your message!"
-                                        class="w-full focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-12 bg-gray-200 rounded-full py-3">
+                                <form @submit.prevent="sendMessage" class="w-full flex">
+                                    <input v-model="content" type="text" placeholder="Write your message"
+                                        class="w-full focus:outline-none focus:placeholder-gray-400 border border-r-0 border-black text-gray-600 placeholder-gray-600 pl-12 bg-gray-200 rounded-full rounded-r-none py-3">
 
-                                    <div class="absolute right-0 items-center inset-y-0 hidden sm:flex">
-                                        <button type="submit"
-                                            class="inline-flex items-center justify-center rounded-r-full px-4 py-3 transition duration-500 ease-in-out text-white bg-blue-500 hover:bg-blue-400 focus:outline-none">
-                                            <span class="font-bold">Send</span>
-                                            <SendIcon />
-                                        </button>
-                                    </div>
+                                    <button type="submit"
+                                        class="flex gap-2 items-center justify-center border-black border-l-0 border rounded-r-full px-4 py-3 transition duration-500 ease-in-out text-white bg-blue-500 hover:bg-blue-400">
+                                        <span class="font-bold hidden lg:flex">Send</span>
+                                        <SendIcon />
+                                    </button>
                                 </form>
                             </div>
                         </div>

@@ -16,7 +16,7 @@ const page = usePage()
         class="fixed left-0 bottom-0 h-fit lg:h-screen border border-t lg:border-r w-full lg:w-fit px-5 py-3 lg:px-3 lg:py-8 z-20 bg-white">
         <div class="flex flex-row lg:flex-col justify-between lg:justify-start lg:gap-5 text-black">
             <Link href="/chat" class="relative">
-            <button :class="{ 'text-white bg-black': page.url == '/chat', 'text-black bg-white': page.url != '/chat' }"
+            <button :class="{ 'text-white bg-blue-500': page.url == '/chat', 'text-black bg-white': page.url != '/chat' }"
                 class="p-2 rounded-full lg:rounded-xl">
                 <BubbleIcon />
             </button>
@@ -24,7 +24,7 @@ const page = usePage()
 
             <Link href="/contacts">
             <button
-                :class="{ 'text-white bg-black': page.url == '/contacts', 'text-black bg-white': page.url != '/contacts' }"
+                :class="{ 'text-white bg-blue-500': page.url == '/contacts', 'text-black bg-white': page.url != '/contacts' }"
                 class="p-2 rounded-full lg:rounded-xl">
                 <UserIcon />
             </button>
@@ -32,7 +32,7 @@ const page = usePage()
 
             <Link href="/group-chats">
             <button
-                :class="{ 'text-white bg-black': page.url == '/group-chats', 'text-black bg-white': page.url != '/group-chats' }"
+                :class="{ 'text-white bg-blue-500': page.url == '/group-chats', 'text-black bg-white': page.url != '/group-chats' }"
                 class="p-2 rounded-full lg:rounded-xl">
                 <GroupIcon />
             </button>
